@@ -52,6 +52,11 @@ export default (props: Props) => {
 	const dialogs = useContext(DialogContext);
 
 	const onProfileItemPress = useCallback(async (profile: Profile) => {
+		if (profile.id === profileConfig.currentProfileId) {
+			dialogs.prompt(_('Information'), _('This profile is already active.'));
+			return;
+		}
+
 		const doIt = async () => {
 			try {
 				await switchProfile(profile.id);
@@ -83,7 +88,7 @@ export default (props: Props) => {
 				],
 			);
 		}
-	}, [dialogs]);
+	}, [dialogs, profileConfig]);
 
 	const onEditProfile = useCallback(async (profileId: string) => {
 		props.dispatch({
